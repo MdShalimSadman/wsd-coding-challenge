@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Analysis Result</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Text Analysis Result</h1>
+        <div class="result">
+            <p id="wordCount">Word Count: </p>
+            <p id="characterCount">Character Count: </p>
+            <p id="sentenceCount">Sentence Count: </p>
+            <p id="paragraphCount">Paragraph Count: </p>
+            <p id="longestWord">Longest Word: </p>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            if (!id) return;
+
+            try {
+                const response = await fetch(`/api/texts/${id}`);
+                const analysis = await response.json();
+                
+                document.getElementById('wordCount').textContent += analysis.wordCount;
+                document.getElementById('characterCount').textContent += analysis.characterCount;
+                document.getElementById('sentenceCount').textContent += analysis.sentenceCount;
+                document.getElementById('paragraphCount').textContent += analysis.paragraphCount;
+                document.getElementById('longestWord').textContent += analysis.longestWord;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
